@@ -15,9 +15,9 @@ SRCS_BONUS	= ft_atoi_base.s \
 
 SRCS_DIR	= srcs/
 
-OBJS		= $(patsubst)
+OBJS		= $(SRCS:.s=.o)
 
-OBJS_BONUS	=
+OBJS_BONUS	= $(patsubst %.s, $(OBJS_DIR)%.o, $(SRCS_BONUS))
 
 OBJS_DIR	= objs/
 
@@ -26,4 +26,23 @@ NAME		= libasm.a
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-		ar rc 
+		ar rcs $(NAME) $(addprefix $(OBJS_DIR), $(OBJS))
+
+BONUS:		$(OBJS) $(OBJS_BONUS)
+		ar rcs $(NAME) $(addprefix $(OBJS_DIR), $(OBJS))
+
+%.o:		$(SRCS_DIR)%.s
+		nasm -f macho64 $<
+		mkdir -p $(OBJS_DIR)
+		mv $(SRCS_DIR)$(@F) $(OBJS_DIR)
+
+clean:
+		rm -rf $(OBJS_DIR)
+
+fclean:		clean
+		rm -f $(NAME)
+
+re:		fclean all
+
+
+##	fix relink

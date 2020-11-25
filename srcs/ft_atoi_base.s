@@ -9,8 +9,8 @@ _ft_isprint:
 
 _ft_atoi_base:
 	xor	rbx, rbx
-	push	rdi
 	push	rsi
+	push	rdi
 	mov	rdi, rsi
 	;; int ft_atoi_base(char *str, char *base);
 	;; char *strchr(const char *s, int c);
@@ -37,11 +37,9 @@ loop1:
 endloop1:
 
 
-
-
-	section	.data
-invchars:	db "+- "
-
 error:
 	xor	rax, rax
 	ret
+
+	section	.data
+invchars:	db "+- ",0x0

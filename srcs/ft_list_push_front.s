@@ -5,15 +5,16 @@
 	extern	_malloc
 
 _ft_list_push_front:
-	mov	rax, [rdi]
+	push	rdi
+	mov	rax, qword [rdi]
 	cmp	rax, 0
 	je	push_elem
-	mov	rdi, [rdi]
+	mov	rdi, qword [rdi]
 while:
-	mov	rax, [rdi + 8]
+	mov	rax, qword [rdi + 8]
 	cmp	rax, 0
 	je	push_elem
-	mov	rdi, [rax]
+	mov	rdi, qword [rax]
 	jmp	while
 
 push_elem:
@@ -21,7 +22,8 @@ push_elem:
 	mov	rdi, 16
 	call	_malloc
 	pop	rdi
-	mov	[rax], rsi
-	mov	[rax + 8], 0
-	mov	[rdi], rax
+	mov	qword [rax], rsi
+	mov	qword [rax + 8], 0
+	mov	qword [rdi], rax
+	pop	rdi
 	ret

@@ -2,12 +2,14 @@
 
 	global _ft_strlen
 _ft_strlen:
+	push	rdi
 	xor	rax, rax	; clean count
 while:
 	cmp	byte [rdi], 0	; check if str end
-	je	whileend	; end of loop
+	je	end		; end of loop
 	inc	rax		; inc count
 	inc	rdi		; move to next str char
 	jmp	while		; loop
-endwhile:
-	ret			;return to main
+end:
+	pop	rdi
+	ret			; return to main

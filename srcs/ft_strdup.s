@@ -15,7 +15,3 @@ _ft_strdup:
 	call	_ft_strcpy	; en rdi - dest (np), en rsi - src (op)
 	mov	rax, rdi	; pasa np a rax
 	ret
-
-
-
-	;; en rdi: puntero a inicio de la cadena
