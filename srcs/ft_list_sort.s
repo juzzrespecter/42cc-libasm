@@ -47,6 +47,7 @@ sort:
 	mov	rcx, qword [rbx + 8]
 	mov	qword [rbx + 8], qword [rax]
 	mov	[rax], rcx
+	mov
 	jmp	while
 
 

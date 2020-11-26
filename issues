@@ -1,7 +1,5 @@
----> makefile relinks
+---> redo makefile
 
----> manage errno in ft_write and ft_read
+---> ft_atoi_base, ft_list_sort, ft_list_remove_if
 
---->ft_atoi_base, ft_list_sort, ft_list_remove_if
-
---->test bonus
+---> test bonus

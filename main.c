@@ -2,22 +2,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <fcntl.h>
 
 int main()
 {
-	char *s1;
-	char *s2;
-	int i = 0;
+	int buffer = 45;
+	char *s = malloc(buffer + 1);
+	int x;
+	int fd = open("test.txt", O_RDONLY);
 
-	s1 = ft_strdup("test str.");
-	s2 = strdup("test str.");
-	printf("str (%s).\nft_s (%s).\n", s2, s1);
-	printf("test zeroterminado:::\n\n\n\n");
-	while (s1[i])
-		{
-			printf("(%c)\n", s1[i]);
-		 i++;
-		}
-	printf("a okk\n");
+	printf("b: error n: (%d) with descr: (%s).\n", errno, strerror(errno));
+	x = ft_read(0, s, buffer);
+	printf("a:ret: (%d) error n: (%d) with descr: (%s).\n",x,  errno, strerror(errno));
+	close(fd);
 	return (0);
 }
