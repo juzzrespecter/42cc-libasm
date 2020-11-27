@@ -1,48 +1,55 @@
 .PHONY:		all re clean fclean bonus
 
-SRCS		= ft_strlen.s \
-				ft_strcpy.s \
-				ft_strcmp.s \
-				ft_write.s \
-				ft_read.s \
-				ft_strdup.s
+SRCDIR		= srcs
 
-SRCS_BONUS	= ft_atoi_base.s \
-			  	ft_list_push_front.s \
-				ft_list_size.s \
-				ft_list_sort.s \
-				ft_list_remove_if.s
+SRC		= srcs/ft_strlen.s \
+			srcs/ft_strcmp.s \
+			srcs/ft_strcpy.s \
+			srcs/ft_write.s \
+			srcs/ft_read.s \
+			srcs/ft_strdup.s
 
-SRCS_DIR	= srcs
+SRCBONUS	= srcs/ft_atoi_base.s \
+			srcs/ft_list_size.s \
+			srcs/ft_list_push_front.s \
+			srcs/ft_list_sort.s \
+			srcs/ft_list_remove_if.s
 
-OBJS_DIR	= objs
+OBJDIR		= objs
 
-OBJS		= $(SRCS=$(SRCS_DIR)/%.s:$(OBJS_DIR)/%.o)
+OBJ		= $(patsubst $(SRCDIR)/%.s, $(OBJDIR)/%.o, $(SRC))
+
+OBJBONUS	= $(patsubst $(SRCDIR)/%.s, $(OBJDIR)/%.o, $(SRCBONUS))
+
+INC		= -I ./inc
+
+LIB		= -L. -lasm
 
 NAME		= libasm.a
 
 all:		$(NAME)
 
-$(NAME):	$(OBJS)
-		echo $(OBJS)
-		ar rcs $(NAME) $(OBJS)
+$(NAME):	$(OBJ)
+		ar rcs $(NAME) $(OBJ)
 
-BONUS:		$(OBJS) $(OBJS_BONUS)
-		ar rcs $(NAME) $(addprefix $(OBJS_DIR), $(OBJS))
+$(OBJDIR)/%.o:	$(SRCDIR)/%.s
+		mkdir -p $(OBJDIR)
+		nasm -f macho64 $< -o $@
 
-$(OBJS):	$(OBJS_DIR)/%.o : $(SRCS_DIR)/%.s
-		mkdir -p $(OBJS_DIR)
-		nasm -f macho64 /$<
-		mv $(@F) $(OBJS_DIR)
-		echo $(OBJS)
+bonus:		$(OBJ) $(OBJBONUS)
+		ar rcs $(NAME) $(OBJBONUS)
 
+exec:		$(NAME)
+		gcc $(SRCDIR)/main.c -o test $(INC) $(LIB)
+		./test
+
+exec_bonus:	bonus
+		gcc $(SRCDIR)/main_bonus.c -o test $(INC) $(LIB)
+		./test_bonus
 clean:
-		rm -rf $(OBJS_DIR)
+		rm -rf $(OBJDIR)
 
 fclean:		clean
 		rm -f $(NAME)
 
 re:		fclean all
-
-
-##	fix relink

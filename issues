@@ -1,5 +1,5 @@
----> redo makefile
+--->ft_atoi_base
 
----> ft_atoi_base, ft_list_sort, ft_list_remove_if
+--->test bonus
 
----> test bonus
+--->main.c main_bonus.c

@@ -13,27 +13,25 @@ _ft_list_remove_if:
 	mov	qword [rbp - 16], rdx	; cmp func
 	mov	qword [rbp - 24], rcx	; free_fct func
 	mov	rcx, rdi
-	jmp	while
-
 while:
-	mov	rdx, qword [rcx]
-	mov	rdi, qword [rdx]
-	mov	rsi, qword [rbp - 8]
+	cmp	rcx, 0
+	je	end
+	mov	rdx, qword [rcx + 8]
 	mov	rax, qword [rbp - 16]
+	mov	rdi, qword [rcx]
+	mov	rsi, qword [rbp - 8]
 	call	rax
 	cmp	rax, 0
 	je	rm
-	mov	rax, qword [rdx + 8] ; checkthis
-	mov	qword [rcx], rax     ; checkthis
-	cmp	qword [rdx + 8], 0
-	je	end
-
+	mov	rcx, rdx
+	jmp	while
 rm:
 	mov	rax, qword [rbp - 24]
 	call	rax
-	mov	rdi, rdx
+	mov	rdi, rcx
 	call	_free
+	mov	rcx, rdx
 	jmp	while
-
 end:
+	pop	rbp
 	ret

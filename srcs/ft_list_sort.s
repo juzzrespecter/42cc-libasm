@@ -9,51 +9,45 @@ _ft_list_sort:
 	mov	rbp, rsp
 	sub	rsp, 16
 
-	mov	qword [rbp - 16], rdi
-	mov	rdi, qword [rdi]
-	call	_ft_list_size
-	mov	rdi, [rbp - 16]
-	mov	dword [rbp - 8], rax
-	mov	dword [rbp - 4], 0
-
-	mov	rcx, qword [rbx + 8]
-	mov	rdx, rsi
-	jmp	while
-while:
-	sub	dword [rbp - 8]
-	cmp	dword [rbp - 8], 0
+	mov	qword [rbp - 8], rsi ; cmp
+	mov	qword [rbp - 16], 0
+	mov	rbx, rdi
+	cmp	qword [rbx], 0
 	je	end
+	mov	rdi, qword [rbx]
+	call	_ft_list_size
+	dec	rax
+	mov	qword [rbp - 16], rax
+while:
 	mov	rax, qword [rbp - 16]
-	mov	rbx, [rax]
-	jmp	pass
-pass:
-	inc	dword [rbp - 4]
-	mov	rdi, [rbx]
-	mov	rcx, [rbx + 8]
-	mov	rsi, [rcx]
-	push	rax
-	call	rsp
-	mov	rax, rdx
-	pop	rax
+	cmp	rax, 0
+	je	end
+	dec	rax
+	mov	qword [rbp - 16], rax
+	mov	rcx, [rbx]
+	mov	rdx, [rcx + 8]
+round:
 	cmp	rdx, 0
-	jg	sort
-	cmp	dword [rbp - 8], dword [rbp - 4]
 	je	while
-	mov	rax, qword [rax + 8]
-	mov	rbx, qword [rax + 8]
-	jmp	pass
-
+	mov	rdi, [rcx]
+	mov	rsi, [rdx]
+	mov	rax, qword [rbp - 8]
+	call	rax
+	cmp	rax, 0
+	jg	sort
+	jmp	next
 sort:
-	mov	rcx, qword [rbx + 8]
-	mov	qword [rbx + 8], qword [rax]
-	mov	[rax], rcx
-	mov
-	jmp	while
-
-
-
-
-
+	push	rbx
+	mov	rax, qword [rcx]
+	mov	rbx, qword [rdx]
+	mov	qword [rdx], rax
+	mov	qword [rcx], rbx
+	pop	rbx
+	jmp	next
+next:
+	mov	rcx, qword [rcx + 8]
+	mov	rdx, qword [rdx + 8]
+	jmp	round
 
 end:
 	pop	rbp
