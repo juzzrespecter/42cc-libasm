@@ -44,7 +44,9 @@ exec:		$(NAME)
 		./test
 
 exec_bonus:	bonus
-		gcc $(SRCDIR)/main_bonus.c -o test $(INC) $(LIB)
+		gcc $(SRCDIR)/main.c -o test $(INC) $(LIB)
+		./test
+		gcc $(SRCDIR)/main_bonus.c -o test_bonus $(INC) $(LIB)
 		./test_bonus
 clean:
 		rm -rf $(OBJDIR)
