@@ -1,6 +1,6 @@
 #ifndef LIBASM_H
 # define LIBASM_H
-
+# include <unistd.h>
 
 typedef struct s_list
 {

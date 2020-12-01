@@ -5,15 +5,17 @@
 _ft_list_size:
 	push	rbp
 	mov	rbp, rsp
-	sub	rsp, 8
+	sub	rsp, 16
 
 	mov	qword [rbp - 8], rdi
 	xor	rax, rax
-while:
+size_while:
 	inc	rax
 	mov	rdi, qword [rdi + 8]
 	cmp	rdi, 0
-	jne	while
+	jne	size_while
 	mov	rdi, qword [rbp - 8]
+
+	mov	rsp, rbp
 	pop	rbp
 	ret

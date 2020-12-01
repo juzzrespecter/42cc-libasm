@@ -39,15 +39,11 @@ $(OBJDIR)/%.o:	$(SRCDIR)/%.s
 bonus:		$(OBJ) $(OBJBONUS)
 		ar rcs $(NAME) $(OBJBONUS)
 
-exec:		$(NAME)
+test:		$(NAME)
 		gcc $(SRCDIR)/main.c -o test $(INC) $(LIB)
-		./test
 
-exec_bonus:	bonus
-		gcc $(SRCDIR)/main.c -o test $(INC) $(LIB)
-		./test
-		gcc $(SRCDIR)/main_bonus.c -o test_bonus $(INC) $(LIB)
-		./test_bonus
+test_bonus:	bonus
+		gcc -g $(SRCDIR)/main_bonus.c -o test_bonus $(INC) $(LIB)
 clean:
 		rm -rf $(OBJDIR)
 

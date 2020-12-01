@@ -7,48 +7,53 @@
 _ft_list_sort:
 	push	rbp
 	mov	rbp, rsp
-	sub	rsp, 16
+	sub	rsp, 32
 
-	mov	qword [rbp - 8], rsi ; cmp
-	mov	qword [rbp - 16], 0
-	mov	rbx, rdi
-	cmp	qword [rbx], 0
-	je	end
-	mov	rdi, qword [rbx]
+	mov	qword [rbp - 8], rdi	; **begin_list
+	mov	qword [rbp - 16], rsi	; fct (*cmp)
+	mov	qword [rbp - 24], 0	; puntero a elemento de lista
+	mov	dword [rbp - 28], 0	; size list
+	mov	rax, qword [rbp - 8]
+	cmp	qword [rax], 0
+	je	sort_end
+	mov	rdi, qword [rax]
 	call	_ft_list_size
 	dec	rax
-	mov	qword [rbp - 16], rax
-while:
-	mov	rax, qword [rbp - 16]
-	cmp	rax, 0
-	je	end
-	dec	rax
-	mov	qword [rbp - 16], rax
-	mov	rcx, [rbx]
-	mov	rdx, [rcx + 8]
-round:
-	cmp	rdx, 0
-	je	while
-	mov	rdi, [rcx]
-	mov	rsi, [rdx]
+	mov	dword [rbp - 28], eax
+sort_while:
 	mov	rax, qword [rbp - 8]
+	mov	rax, qword [rax]
+	mov	qword [rbp - 24], rax
+	mov	eax, dword [rbp - 28]
+	cmp	eax, 0
+	je	sort_end
+	dec	eax
+	mov	dword [rbp - 28], eax
+sort_round:
+	mov	rax, qword [rbp - 24]
+	mov	rdx, [rax + 8]
+	cmp	rdx, 0
+	je	sort_while
+	mov	rdi, [rax]
+	mov	rsi, [rdx]
+	mov	rax, qword [rbp - 16]
 	call	rax
-	cmp	rax, 0
-	jg	sort
-	jmp	next
-sort:
-	push	rbx
-	mov	rax, qword [rcx]
-	mov	rbx, qword [rdx]
-	mov	qword [rdx], rax
-	mov	qword [rcx], rbx
-	pop	rbx
-	jmp	next
-next:
-	mov	rcx, qword [rcx + 8]
-	mov	rdx, qword [rdx + 8]
-	jmp	round
-
-end:
+	cmp	eax, 0
+	jg	sort_move
+sort_next:
+	mov	rax, qword [rbp - 24]
+	mov	rax, qword [rax + 8]
+	mov	qword [rbp - 24], rax
+	jmp	sort_round
+sort_move:
+	mov	rax, qword [rbp - 24]
+	mov	rdx, qword [rax + 8]
+	mov	rbx, qword [rax]
+	mov	rcx, qword [rdx]
+	mov	qword [rax], rcx
+	mov	qword [rdx], rbx
+	jmp	sort_next
+sort_end:
+	mov	rsp, rbp
 	pop	rbp
 	ret
