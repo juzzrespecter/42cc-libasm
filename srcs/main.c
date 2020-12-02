@@ -4,34 +4,55 @@
 #include <unistd.h>
 #include <stdio.h>
 
-int main()
+int main(int argc, char **argv)
 {
-	char *len_test = "test";
-	char *src_test = "test";
-	char *dst_test = malloc(sizeof(char) * ft_strlen(src_test));
-	char *ft_dst_test = malloc(sizeof(char) * ft_strlen(src_test));
-	char *s1 = "test";
-	char *s2 = "tesu";
-	char *writeme = "test\n";
-	int	fd_write = 0; // cambiame
-	int fd_read = 0; // cambiame
+	char *dst_test;
+	char *ft_dst_test;
+	int fd_read;
+	int	fd_write;
 	int rd_buff = 200;
-	char *rd_str = malloc(sizeof(char) * rd_buff);
-	char *strdup_str = "test";
+	char *rd_str;
 	char *newstr;
 	char *ft_newstr;
 
-	printf("############ STRLEN ############\nstr: (%s)\n -->len: (%zu)\n -->ft_len: (%zu)\n############        ############\n\n\n", len_test, strlen(len_test), ft_strlen(len_test));
-	printf("############ STRCPY ############\nsrc: (%s)\n -->cpy: (%s)\n -->ft_cpy: (%s)\n############        ############\n\n\n", src_test, strcpy(dst_test, src_test), ft_strcpy(ft_dst_test, src_test));
-	free(dst_test);
-	free(ft_dst_test);
-	printf("############ STRCMP ############\ns1: (%s), s2: (%s)\n -->cmp: (%d)\n -->ft_cmp (%d)\n#############        ############\n\n\n", s1, s2, strcmp(s1, s2), ft_strcmp(s1, s2));
-	printf("############ WRITE ############\n -->wr_out: (%zd) with errno (%d) (%s)\n -->ft_wr: (%zd) with errno (%d) (%s)\n############       ############\n\n\n", write(fd_write, writeme, strlen(writeme)), errno, strerror(errno), ft_write(fd_write, writeme, ft_strlen(writeme)), errno, strerror(errno));
-	printf("############ READ ############\n -->rd_out: (%zd) with errno (%d) (%s)\n --> ft_rd: (%zd) with errno (%d) (%s)\n############      ############\n\n\n", read(fd_read, rd_str, rd_buff), errno, strerror(errno), ft_read(fd_read, rd_str, rd_buff), errno, strerror(errno));
-	free(rd_str);
-	newstr = strdup(strdup_str);
-	ft_newstr = ft_strdup(strdup_str);
-	printf("############ STRDUP ############\nstr: (%s)\n -->strdup: (%s)\n -->ft_str: (%s)\n############        ############\n\n\n", strdup_str, newstr, ft_newstr);
-
+	if (argc == 3 && !(strcmp(argv[1], "ft_strlen")))
+		{
+			printf("\n\n############ STRLEN ############\nstr: (%s)\n -->   len: (%zu)\n -->ft_len: (%zu)\n############        ############\n\n", argv[2], strlen(argv[2]), ft_strlen(argv[2]));
+		}
+	if (argc == 3 && !(strcmp(argv[1], "ft_strcpy")))
+		{
+			dst_test = malloc(sizeof(char) * ft_strlen(argv[2]));
+			ft_dst_test = malloc(sizeof(char) * ft_strlen(argv[2]));
+			printf("\n\n############ STRCPY ############\nsrc: (%s)\n -->   cpy: (%s)\n -->ft_cpy: (%s)\n############        ############\n\n", argv[2], strcpy(dst_test, argv[2]), ft_strcpy(ft_dst_test, argv[2]));
+			free(dst_test);
+			free(ft_dst_test);
+		}
+	if (argc == 4 && !(strcmp(argv[1], "ft_strcmp")))
+		{
+			printf("\n\n############ STRCMP ############\ns1: (%s), s2: (%s)\n -->   cmp: (%d)\n -->ft_cmp: (%d)\n#############        ############\n\n", argv[2], argv[3], strcmp(argv[2], argv[3]), ft_strcmp(argv[2], argv[3]));
+		}
+	if (argc == 4 && !(strcmp(argv[1], "ft_write")))
+		{
+			fd_write = atoi(argv[2]);
+			printf("\n\n############ WRITE ############\n -->   wr: (%zd) with errno (%d) (%s)\n -->ft_wr: (%zd) with errno (%d) (%s)\n############       ############\n\n",	\
+						 write(fd_write, argv[3], strlen(argv[3])), errno, strerror(errno), ft_write(fd_write, argv[3], ft_strlen(argv[3])), errno, strerror(errno));
+		}
+	if (argc == 3 && !(strcmp(argv[1], "ft_read")))
+		{
+			fd_read = atoi(argv[2]);
+			rd_str = malloc(sizeof(char) * rd_buff);
+			printf("\n\n############ READ ############\n -->rd_out: (%zd) with errno (%d) (%s)\n --> ft_rd: (%zd) with errno (%d) (%s)\n############      ############\n\n", \
+						 read(fd_read, rd_str, rd_buff), errno, strerror(errno), ft_read(fd_read, rd_str, rd_buff), errno, strerror(errno));
+			//	if (!errno)
+			//	free(rd_str);
+		}
+	if (argc == 3 && !(strcmp(argv[1], "ft_strdup")))
+		{
+			newstr = strdup(argv[2]);
+			ft_newstr = ft_strdup(argv[2]);
+			printf("\n\n############ STRDUP ############\nstr: (%s)\n -->strdup: (%s)\n -->ft_str: (%s)\n############        ############\n\n", argv[2], newstr, ft_newstr);
+			free(newstr);
+			free(ft_newstr);
+		}
 	return (0);
 }

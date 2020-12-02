@@ -14,6 +14,8 @@ _ft_list_sort:
 	mov	qword [rbp - 24], 0	; puntero a elemento de lista
 	mov	dword [rbp - 28], 0	; size list
 	mov	rax, qword [rbp - 8]
+	cmp	rax, 0
+	je	sort_end
 	cmp	qword [rax], 0
 	je	sort_end
 	mov	rdi, qword [rax]

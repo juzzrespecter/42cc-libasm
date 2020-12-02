@@ -39,7 +39,7 @@ $(OBJDIR)/%.o:	$(SRCDIR)/%.s
 bonus:		$(OBJ) $(OBJBONUS)
 		ar rcs $(NAME) $(OBJBONUS)
 
-test:		$(NAME)
+test:		$(NAME) $(SRCDIR)/main.c
 		gcc $(SRCDIR)/main.c -o test $(INC) $(LIB)
 
 test_bonus:	bonus
