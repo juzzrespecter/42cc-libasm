@@ -25,6 +25,13 @@ INC		= -I ./inc
 
 LIB		= -L. -lasm
 
+OS := $(shell uname -s)
+ifeq ($(OS),Darwin)
+    ASFLAGS = -f macho64
+else
+    ASFLAGS = -f elf64
+endif
+
 NAME		= libasm.a
 
 all:		$(NAME)
@@ -34,7 +41,7 @@ $(NAME):	$(OBJ)
 
 $(OBJDIR)/%.o:	$(SRCDIR)/%.s
 		mkdir -p $(OBJDIR)
-		nasm -f macho64 $< -o $@
+		nasm $(ASFLAGS) $< -o $@
 
 bonus:		$(OBJ) $(OBJBONUS)
 		ar rcs $(NAME) $(OBJBONUS)
