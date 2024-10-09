@@ -2,7 +2,7 @@
 Part of 42 common-core cursus: first steps into assembly language
 
 This project consists on rewritting a number of functions from the standard c library in x86-64 asm (intel syntax) and build a simple static library with them.
-## Functions rewritten
+## Rewritten functions
 ```
 size_t ft_strlen(const char *s);
 char *ft_strcpy(char *dst, const char *s2);
